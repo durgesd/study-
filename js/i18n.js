@@ -1,0 +1,135 @@
+/* ===================== Bilingual UI strings (EN / हिन्दी) ===================== */
+let LANG='en';
+const STR={};
+const def=(k,en,hi)=>{STR[k]={en,hi}};
+function t(k,...a){const o=STR[k];const s=o?(o[LANG]||o.en):k;return s.replace(/\{(\d)\}/g,(m,i)=>a[+i]===undefined?'':a[+i])}
+const GROUP_HI={All:'सभी',Prelims:'प्रारंभिक',Mains:'मुख्य',Interview:'साक्षात्कार',Common:'सामान्य','Exam-specific':'परीक्षा-विशिष्ट','Tier I / Core':'Tier I / मुख्य','Tier II & Skill':'Tier II व स्किल',Core:'मुख्य','Technical & Tests':'तकनीकी व परीक्षण',Foundation:'आधार','General Studies':'सामान्य अध्ययन',Chhattisgarh:'छत्तीसगढ़','Specific & Skills':'विशिष्ट व कौशल'};
+
+/* general */
+def('app','Pariksha Path','परीक्षा पथ');
+def('app_title','Pariksha Path — Syllabus Tracker','परीक्षा पथ — सिलेबस ट्रैकर');
+def('confirm','Confirm','पुष्टि करें');def('cancel','Cancel','रद्द करें');def('ok','OK','ठीक है');
+def('add','Add','जोड़ें');def('delete','Delete','हटाएँ');def('remove','Remove','हटाएँ');
+def('on','On','चालू');def('off','Off','बंद');def('yes','Yes','हाँ');def('best_effort','Best-effort','सामान्य');
+def('today','Today','आज');def('prev','Previous day','पिछला दिन');def('next','Next day','अगला दिन');
+def('u_h','h','घं');def('u_m','m','मि');def('days','days','दिन');def('never','Never','कभी नहीं');
+def('less','Less','कम');def('more','More','ज़्यादा');
+/* nav */
+def('nav_dash','Dashboard','डैशबोर्ड');def('nav_dash_s','Overview & streak','सारांश व स्ट्रीक');
+def('nav_master_s','All exams, one plan','सभी परीक्षाएँ, एक योजना');
+def('nav_rev','Revision','रिवीज़न');def('nav_rev_s','Spaced reminders','नियमित दोहराव');
+def('rev_due_n','{0} due','{0} बाकी');
+def('nav_plan','Daily Planner','दैनिक योजना');def('nav_plan_s','Tasks & focus timer','कार्य व फोकस टाइमर');
+def('nav_set','Backup & Settings','बैकअप व सेटिंग');def('nav_set_s','Export · Import · Language','एक्सपोर्ट · इम्पोर्ट · भाषा');
+def('b_home','Home','होम');def('b_syl','Syllabus','सिलेबस');def('b_rev','Revise','रिवाइज़');def('b_plan','Plan','योजना');def('b_more','More','अधिक');
+def('topics_done_short','topics done','टॉपिक पूर्ण');
+/* dashboard */
+def('g_am','Good morning','सुप्रभात');def('g_pm','Good afternoon','नमस्कार');def('g_eve','Good evening','शुभ संध्या');
+def('today_line','{0} topics to revise · {1} tasks pending today','{0} टॉपिक रिवाइज़ करने हैं · आज {1} कार्य बाकी');
+def('start_rev','Start revision','रिवीज़न शुरू करें');def('open_plan','Open today’s plan','आज की योजना खोलें');
+def('open_master','Master syllabus','मास्टर सिलेबस');def('overall','Overall progress','कुल प्रगति');
+def('streak','Study streak','पढ़ाई स्ट्रीक');def('studied_today','Studied today','आज की पढ़ाई');def('tasks_today','Tasks today','आज के कार्य');
+def('rev_due','Revision due','रिवीज़न बाकी');def('upcoming','upcoming','आने वाले');def('topics_done','Topics completed','पूर्ण टॉपिक');
+def('routes','Your routes','आपके रास्ते');def('routes_sub','tap one to open its syllabus','सिलेबस खोलने के लिए चुनें');
+def('start_here','Start here','यहाँ से शुरू करें');
+def('done','done','पूर्ण');def('running','in progress','जारी');def('left','remaining','शेष');def('to_rev','to revise','रिवाइज़ करने हैं');
+def('plan_today','Today’s plan','आज की योजना');def('no_tasks_dash','No tasks for today. Add one in the planner.','आज कोई कार्य नहीं। योजना में जोड़ें।');
+def('studying','Currently studying','अभी पढ़ रहे हैं');def('studying_sub','marked “in progress”','“जारी” चिह्नित');
+def('studying_empty','Tap the circle next to a topic once to mark it “in progress”.','किसी टॉपिक के गोले को एक बार दबाएँ, वह “जारी” हो जाएगा।');
+def('starred','Starred topics','तारांकित टॉपिक');def('starred_empty','Star a topic to keep it here for extra revision.','अतिरिक्त रिवीज़न के लिए टॉपिक पर तारा लगाएँ।');
+def('last7','Last 7 days','पिछले 7 दिन');def('study_time','Study time','पढ़ाई का समय');
+def('wk_total','Total {0} · avg {1} per day','कुल {0} · औसत {1} प्रतिदिन');
+def('consistency','Consistency','निरंतरता');def('weeks18','last 18 weeks','पिछले 18 सप्ताह');
+def('bk_title','Take a backup copy','बैकअप कॉपी लें');def('bk_ago','Last export was {0} days ago.','पिछला एक्सपोर्ट {0} दिन पहले हुआ था।');
+def('bk_never','You have not exported your progress yet.','आपने अभी तक प्रगति एक्सपोर्ट नहीं की है।');
+def('bk_text','One file keeps your data safe even if browser data is cleared.','एक फ़ाइल से आपका डेटा सुरक्षित रहता है, भले ही ब्राउज़र डेटा साफ़ हो जाए।');
+def('export','Export backup','बैकअप एक्सपोर्ट करें');
+def('err_data','Main data was unreadable – recovered from backup.','मुख्य डेटा पढ़ा नहीं जा सका – बैकअप से वापस लाया गया।');
+def('err_storage','Browser storage is blocked – progress will not be saved. Use a normal (non-private) window.','ब्राउज़र स्टोरेज बंद है – प्रगति सेव नहीं होगी। सामान्य (नॉन-प्राइवेट) विंडो में खोलें।');
+def('toast_storage','Browser storage blocked or full – export a backup now','ब्राउज़र स्टोरेज बंद या भरा है – अभी बैकअप एक्सपोर्ट करें');
+/* revision (dashboard + page) */
+def('rev_today','Revise today','आज रिवाइज़ करें');def('rev_today_sub','A quick recall now keeps these topics from fading.','अभी दोहराने से ये टॉपिक याद रहेंगे।');
+def('open_rev','Open revision','रिवीज़न खोलें');
+def('rev_intro','Every completed topic returns after {0} days. Mark it revised and the next date is set for you.','पूरा किया हर टॉपिक {0} दिन बाद लौटता है। “रिवाइज़ किया” दबाएँ, अगली तारीख अपने आप तय हो जाएगी।');
+def('rem_settings','Reminder settings','रिमाइंडर सेटिंग');def('due_now','Due now','अभी बाकी');def('coming_up','Coming up','आने वाले');
+def('rev_week','Revised this week','इस सप्ताह रिवाइज़');def('mastered','Mastered','पूर्ण महारत');
+def('auto_off','Auto-schedule is off','ऑटो-शेड्यूल बंद है');def('auto_off_sub','Completed topics will not get revision dates. Turn it on in Settings.','पूरे किए टॉपिक को रिवीज़न तारीख नहीं मिलेगी। सेटिंग में चालू करें।');
+def('rev_empty','Nothing due. Finish a topic and its first revision appears tomorrow.','कुछ बाकी नहीं। कोई टॉपिक पूरा करें, पहला रिवीज़न कल दिखेगा।');
+def('rev_none_soon','No upcoming revisions yet.','अभी कोई आगामी रिवीज़न नहीं।');
+def('rev_step','Revision {0} of {1}','रिवीज़न {0}/{1}');def('rev_all','Completed all {0} revisions','सभी {0} रिवीज़न पूरे');
+def('overdue_d','{0} days overdue','{0} दिन देरी');def('due_today','due today','आज देय');def('late_d','{0}d late','{0} दिन देर');
+def('revise','revise','रिवाइज़');def('revise_on','revise {0}','रिवाइज़ {0}');def('mastered_l','mastered','महारत');
+def('revised','Revised ✓','रिवाइज़ किया ✓');def('revised_early','Revised early','पहले रिवाइज़ किया');def('tomorrow','Tomorrow','कल');
+/* exam view */
+def('exam_date','Exam date','परीक्षा तिथि');def('days_left','{0} days left','{0} दिन शेष');def('exam_today','Exam today','आज परीक्षा');def('exam_passed','Exam date passed','परीक्षा तिथि बीत गई');
+def('search_ph','Search topics and notes…','टॉपिक और नोट्स खोजें…');
+def('f_all','All','सभी');def('f_todo','Not started','शुरू नहीं');def('f_prog','In progress','जारी');def('f_done','Done','पूर्ण');def('f_rev','★ Revise','★ रिवाइज़');
+def('st0','Not started','शुरू नहीं हुआ');def('st1','In progress','जारी');def('st2','Done','पूर्ण');
+def('n_done','{0}/{1} done','{0}/{1} पूर्ण');def('mark_all','Mark all done','सभी पूर्ण करें');
+def('add_topic_ph','Add your own topic and press Enter','अपना टॉपिक लिखें और Enter दबाएँ');
+def('no_match','Nothing matches. Try another search or filter.','कुछ नहीं मिला। दूसरा खोज या फ़िल्टर आज़माएँ।');
+def('custom','custom','अपना');
+def('tip_star','Mark for extra revision','अतिरिक्त रिवीज़न के लिए चिह्नित करें');def('tip_note','Note','नोट');def('tip_plan','Add to today’s plan','आज की योजना में जोड़ें');def('tip_del','Remove custom topic','अपना टॉपिक हटाएँ');
+def('note_ph','Sources, formulas, weak points…','स्रोत, सूत्र, कमज़ोर बिंदु…');
+/* master */
+def('mp_note','Common topics appear once here. Tags show which exams ask them. Master progress is tracked separately from each exam’s own list.','साझा टॉपिक यहाँ एक बार आते हैं। टैग बताते हैं कि कौन सी परीक्षा उन्हें पूछती है। मास्टर की प्रगति हर परीक्षा की अपनी सूची से अलग गिनी जाती है।');
+def('mp_ready','Readiness by exam','परीक्षा अनुसार तैयारी');def('mp_ready_sub','Share of each exam’s master topics that you have completed.','हर परीक्षा के मास्टर टॉपिक में से आपने कितने पूरे किए।');
+def('rd_line','{0} of {1} topics','{1} में से {0} टॉपिक');
+def('mp_overlap','Overlap analysis','साझा विषयों का विश्लेषण');
+def('p4','In all 4 exams','चारों परीक्षाओं में');def('p3','In 3 exams','3 परीक्षाओं में');def('p2','In 2 exams','2 परीक्षाओं में');def('p1','One exam only','केवल एक परीक्षा में');
+def('mp_road','Study order','पढ़ाई का क्रम');
+def('ph1','Maths, reasoning, English, Hindi: build speed.','गणित, तर्कशक्ति, अंग्रेज़ी, हिंदी: गति बनाएँ।');
+def('ph2','History to current affairs: common to all four.','इतिहास से समसामयिकी तक: चारों में साझा।');
+def('ph3','Needed for CGPSC and Vyapam: high scoring.','CGPSC व व्यापम के लिए ज़रूरी: अधिक अंक।');
+def('ph4','Mains, add-ons, typing, physical tests, documents.','मुख्य परीक्षा, अतिरिक्त विषय, टाइपिंग, शारीरिक परीक्षा, दस्तावेज़।');
+def('cov','Show','दिखाएँ');def('c_all','All topics','सभी टॉपिक');def('c_core','In all 4 exams','चारों में');def('c_common','In 3+ exams','3+ परीक्षाओं में');
+/* planner */
+def('tasks','Tasks','कार्य');def('no_tasks','Nothing planned. Add a task below, or tap + next to any syllabus topic.','कुछ तय नहीं। नीचे कार्य जोड़ें, या किसी टॉपिक के + को दबाएँ।');
+def('task_ph','e.g. Chhattisgarh rivers – 2 hours','जैसे: छत्तीसगढ़ की नदियाँ – 2 घंटे');
+def('toggle_task','Toggle task','कार्य बदलें');def('mark_topic_done','Mark topic done','टॉपिक पूर्ण करें');
+def('carry_title','{0} unfinished task(s) from earlier days','पिछले दिनों के {0} अधूरे कार्य');def('carry_sub','Move them to today so nothing is forgotten.','आज में ले आएँ ताकि कुछ छूटे नहीं।');def('carry_btn','Move to today','आज में लाएँ');
+def('focus','Focus timer','फोकस टाइमर');def('focus_sub','adds to study time','पढ़ाई के समय में जुड़ता है');
+def('timer_start','Start focus session','फोकस सत्र शुरू करें');def('timer_stop','Stop & discard','रोकें व छोड़ें');def('timer_finish','Finish now & log time','अभी खत्म करें व समय जोड़ें');
+def('timer_running','{0} minute session running','{0} मिनट का सत्र चल रहा है');
+def('timer_note','Finished sessions are added to today’s study time automatically.','पूरे सत्र आज के पढ़ाई समय में अपने आप जुड़ते हैं।');
+def('timer_done_title','Focus session complete','फोकस सत्र पूरा');def('timer_done_body','{0} minutes logged. Take a short break.','{0} मिनट जुड़ गए। थोड़ा विश्राम करें।');
+def('timer_done_toast','Session complete · {0}m logged','सत्र पूरा · {0} मिनट जुड़े');def('logged','{0}m logged','{0} मिनट जुड़े');def('too_short','Session too short to log','सत्र बहुत छोटा है');
+def('discard_title','Discard this session?','यह सत्र छोड़ें?');def('discard_body','Time will not be added to your study log.','समय पढ़ाई लॉग में नहीं जुड़ेगा।');def('discard','Discard','छोड़ें');
+def('goal','goal','लक्ष्य');def('goal_hit','Goal reached. Well done.','लक्ष्य पूरा। बहुत बढ़िया।');def('goal_left','{0} to reach today’s goal','आज का लक्ष्य पाने में {0} शेष');def('goal_min','Daily goal (minutes)','दैनिक लक्ष्य (मिनट)');
+/* settings */
+def('set_sub','Your progress lives in this browser. Keep a backup file for safety.','आपकी प्रगति इसी ब्राउज़र में सुरक्षित है। सुरक्षा के लिए बैकअप फ़ाइल रखें।');
+def('your_data','Your data','आपका डेटा');def('data_size','Data size','डेटा आकार');def('last_export','Last export','पिछला एक्सपोर्ट');def('started','Started on','शुरुआत');def('protected','Protected storage','सुरक्षित स्टोरेज');
+def('export_btn','Export backup (.json)','बैकअप एक्सपोर्ट (.json)');def('import_btn','Import backup','बैकअप इम्पोर्ट');
+def('import_note','Importing replaces current data, but your current data is saved first as a safety copy.','इम्पोर्ट से मौजूदा डेटा बदल जाता है, पर पहले उसकी सुरक्षा कॉपी रख ली जाती है।');
+def('appearance','Appearance & app','रूप-रंग व ऐप');def('language','Language','भाषा');def('theme','Theme','थीम');def('dark','Dark','डार्क');def('light','Light','लाइट');
+def('install','Install app','ऐप इंस्टॉल करें');def('install_title','Install on this device','इस डिवाइस पर इंस्टॉल करें');def('install_sub','Works offline, opens like an app','ऑफ़लाइन चलता है, ऐप की तरह खुलता है');
+def('installed','Installed','इंस्टॉल हो गया');def('install_na','Open in Chrome / Safari to install','इंस्टॉल के लिए Chrome / Safari में खोलें');
+def('ios_title','Install on iPhone / iPad','iPhone / iPad पर इंस्टॉल करें');def('ios_body','Tap the Share button in Safari, then choose “Add to Home Screen”.','Safari में Share बटन दबाएँ, फिर “Add to Home Screen” चुनें।');
+def('snapshots','Automatic daily copies','स्वचालित दैनिक कॉपी');def('snap_note','Start-of-day copy','दिन की शुरुआत की कॉपी');def('snap_empty','Copies appear after your second day of use.','कॉपी दूसरे दिन के उपयोग के बाद दिखेंगी।');def('restore','Restore','वापस लाएँ');
+def('rem_title','Revision reminders','रिवीज़न रिमाइंडर');def('auto_rev','Auto-schedule revision when a topic is marked done','टॉपिक पूर्ण होते ही रिवीज़न अपने आप तय करें');
+def('auto_rev_sub','Revision after {0} days','{0} दिन बाद रिवीज़न');def('daily_rem','Daily reminder notification','दैनिक रिमाइंडर नोटिफ़िकेशन');def('rem_time','Reminder time','रिमाइंडर समय');
+def('test_notif','Send test notification','टेस्ट नोटिफ़िकेशन भेजें');def('test_body','Reminders are working. Keep revising!','रिमाइंडर काम कर रहे हैं। रिवीज़न जारी रखें!');
+def('rem_note','Browsers can show reminders only while the app is open or running in the background. Install it for the best result. If a reminder is missed, due topics still show on the sidebar, tab title and dashboard.','ब्राउज़र रिमाइंडर तभी दिखा सकता है जब ऐप खुला हो या बैकग्राउंड में चल रहा हो। बेहतर परिणाम के लिए इंस्टॉल करें। रिमाइंडर छूट जाए तो भी बाकी टॉपिक साइडबार, टैब शीर्षक और डैशबोर्ड पर दिखते हैं।');
+def('n_unsupported','Not supported in this browser','इस ब्राउज़र में समर्थित नहीं');def('n_granted','Allowed – reminders will appear','अनुमति मिली – रिमाइंडर दिखेंगे');def('n_denied','Blocked – allow notifications in browser site settings','बंद है – ब्राउज़र की साइट सेटिंग में अनुमति दें');def('n_ask','Permission not asked yet','अनुमति अभी नहीं माँगी');
+def('n_rev','{0} to revise','{0} रिवाइज़ करने हैं');def('n_tasks','{0} tasks planned','{0} कार्य तय');def('notif_body','Open Pariksha Path and start with revision.','परीक्षा पथ खोलें और रिवीज़न से शुरुआत करें।');
+def('good_to_know','Good to know','ज़रूरी बातें');
+def('know_1','• Data is stored with localStorage on this device and browser. A different phone or browser starts empty – use Export / Import to move it.','• डेटा इसी डिवाइस और ब्राउज़र में सेव होता है। दूसरे फ़ोन या ब्राउज़र में खाली रहेगा – ले जाने के लिए एक्सपोर्ट / इम्पोर्ट करें।');
+def('know_2','• Clearing browser or site data deletes progress. That is what the backup file is for.','• ब्राउज़र या साइट डेटा साफ़ करने से प्रगति मिट जाती है। इसी के लिए बैकअप फ़ाइल है।');
+def('know_3','• The Master Syllabus is built by overlaying the four syllabi. Tags: C = CGPSC, V = CG Vyapam, S = SSC, R = Railway.','• मास्टर सिलेबस चारों सिलेबस को मिलाकर बना है। टैग: C = CGPSC, V = छ.ग. व्यापम, S = SSC, R = रेलवे।');
+def('know_4','• Syllabus is a study-friendly outline. Always verify with the latest official notification (psc.cg.gov.in, vyapam.cgstate.gov.in, ssc.gov.in, rrbcdg.gov.in).','• सिलेबस पढ़ाई के लिए बनाई रूपरेखा है। हमेशा नवीनतम आधिकारिक अधिसूचना से मिलान करें (psc.cg.gov.in, vyapam.cgstate.gov.in, ssc.gov.in, rrbcdg.gov.in)।');
+def('danger','Danger zone','सावधानी क्षेत्र');def('erase_btn','Erase all progress…','सारी प्रगति मिटाएँ…');def('erase_note','A backup file downloads automatically before anything is erased.','कुछ भी मिटाने से पहले बैकअप फ़ाइल अपने आप डाउनलोड होती है।');
+def('erase_title','Erase all progress?','सारी प्रगति मिटाएँ?');def('erase_body','This removes every tick, note, plan and study log. A backup file downloads first. Type <b>ERASE</b> to continue.','इससे हर टिक, नोट, योजना और पढ़ाई लॉग मिट जाएगा। पहले बैकअप डाउनलोड होगा। जारी रखने के लिए <b>ERASE</b> लिखें।');
+def('erase_ok','Erase everything','सब मिटाएँ');def('erase_ph','Type ERASE','ERASE लिखें');
+def('imp_title','Import this backup?','यह बैकअप इम्पोर्ट करें?');def('imp_body','Current data will be replaced. A safety copy of what you have now is kept automatically.','मौजूदा डेटा बदल जाएगा। अभी के डेटा की सुरक्षा कॉपी अपने आप रखी जाती है।');
+def('restore_title','Restore this copy?','यह कॉपी वापस लाएँ?');def('restore_body','Your current data is saved as a safety copy first, then replaced with the {0} copy.','पहले आपका मौजूदा डेटा सुरक्षा कॉपी में रखा जाएगा, फिर {0} की कॉपी लगाई जाएगी।');
+def('del_title','Remove custom topic?','अपना टॉपिक हटाएँ?');def('del_body','“{0}” will be removed from your syllabus along with its progress.','“{0}” अपनी प्रगति सहित आपके सिलेबस से हट जाएगा।');
+def('markall_title','Mark everything done?','सब पूर्ण करें?');def('markall_body','All topics in “{0}” will be marked as done.','“{0}” के सभी टॉपिक पूर्ण चिह्नित होंगे।');
+/* toasts */
+def('t_done','Marked done ✓','पूर्ण चिह्नित ✓');def('t_revised','Revision recorded ✓','रिवीज़न दर्ज ✓');def('t_snoozed','Reminder moved to tomorrow','रिमाइंडर कल के लिए किया');
+def('t_star_on','Added to starred list','तारांकित सूची में जोड़ा');def('t_star_off','Removed from starred list','तारांकित सूची से हटाया');
+def('t_planned','Added to today’s plan','आज की योजना में जोड़ा');def('t_subj_done','Subject completed','विषय पूर्ण');def('t_carried','{0} task(s) moved to today','{0} कार्य आज में लाए गए');
+def('t_rem_on','Daily reminder on','दैनिक रिमाइंडर चालू');def('t_test_ok','Test notification sent','टेस्ट नोटिफ़िकेशन भेजा');def('t_test_fail','Could not show notification','नोटिफ़िकेशन नहीं दिखा सका');def('t_time_saved','Reminder time saved','रिमाइंडर समय सेव');
+def('t_backup','Backup downloaded','बैकअप डाउनलोड हुआ');def('t_imported','Backup imported','बैकअप इम्पोर्ट हुआ');def('t_bad_file','That file is not a valid backup','यह फ़ाइल मान्य बैकअप नहीं है');
+def('t_restored','Restored','वापस लाया गया');def('t_restore_fail','Could not restore that copy','यह कॉपी वापस नहीं ला सका');
+def('t_not_erased','Not erased – you must type ERASE','नहीं मिटाया – ERASE लिखना ज़रूरी है');def('t_erased','All progress erased','सारी प्रगति मिट गई');def('t_topic_added','Topic added','टॉपिक जुड़ गया');
+def('upd_text','A new version is ready.','नया संस्करण तैयार है।');def('upd_btn','Update','अपडेट करें');

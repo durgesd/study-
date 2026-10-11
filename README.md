@@ -1,46 +1,47 @@
-# Pariksha Path — Syllabus Tracker
+# Pariksha Path / परीक्षा पथ
 
-CGPSC · CG Vyapam · SSC · Railway ka smart syllabus tracker, revision reminders ke saath.
+CGPSC · CG Vyapam · SSC · Railway syllabus tracker. Hindi + English, master syllabus, revision reminders, installable PWA.
 
 ## Folder structure
 ```
 index.html              page skeleton
-manifest.webmanifest    install (PWA) settings
-sw.js                   offline cache + notification click
+manifest.webmanifest    PWA install settings (name, icons, shortcuts)
+sw.js                   offline cache, font cache, update + notification click
 .nojekyll
-css/styles.css          saari styling
-js/data.js              syllabus (yahan topics edit karo)
+css/styles.css          design system
+js/i18n.js              UI text in English + Hindi (add/edit translations here)
+js/data.js              CGPSC / Vyapam / SSC / Railway syllabus  ('English|हिन्दी')
+js/master.js            MASTER syllabus with exam tags (C / V / S / R)
 js/utils.js             helpers, icons
-js/store.js             storage, backup, revision logic
-js/views.js             saari screens
-js/app.js               actions, reminders, focus timer
-icons/                  app icons
+js/store.js             storage, backup, revision + readiness logic
+js/views.js             all screens
+js/app.js               actions, reminders, focus timer, PWA install/update
+icons/                  app icons (normal + maskable + apple touch)
 ```
 
 ## Features
-- Topic status: Not started → In progress → Done, star, notes, custom topics
-- **Revision reminders:** topic done karte hi 1, 3, 7, 15, 30 din baad revision schedule hota hai
-- Daily reminder notification (time aap choose karo), tab title aur app icon par due count
-- Daily planner, study hours, **focus timer**, streak, heatmap, exam countdown
-- Dark / Light theme, mobile friendly, phone par install ho sakta hai (offline bhi chalta hai)
-- Data browser me save, automatic daily copies, Export / Import backup (.json)
+- Hindi / English switch (whole UI and all syllabus topics)
+- Master syllabus: 138 topics from the four syllabi, each tagged with the exams that ask it, plus "readiness by exam" and overlap analysis
+- Topic status, star, notes, own topics, exam countdown
+- Spaced revision (1, 3, 7, 15, 30 days), daily reminder notification, due badge
+- Daily planner, focus timer, streak, heatmap
+- Dark / Light theme, mobile bottom navigation
+- PWA: install on phone / desktop, works offline, in-app update prompt
+- Data in browser localStorage + automatic daily copies + Export / Import backup
 
-## GitHub Pages par chalane ke steps
-1. Zip **extract** karo.
-2. Naya repo banao, phir **Add file → Upload files** me extract hua poora folder content drag karo
-   (folders `css`, `js`, `icons` ke saath). Commit karo.
-3. **Settings → Pages → Deploy from a branch → main / (root) → Save**.
-4. Link: `https://<username>.github.io/<repo>/`
+## GitHub Pages
+1. Extract the zip.
+2. Create a repo, then **Add file → Upload files** and drag in everything, including the `css`, `js` and `icons` folders (and the hidden `.nojekyll`).
+3. **Settings → Pages → Deploy from a branch → main / (root)**.
+4. Open `https://<username>.github.io/<repo>/`. On phone: browser menu → Install app / Add to Home screen.
 
-Phone me link kholo → browser menu → **Add to Home screen / Install app**.
+PWA install and offline mode need `https` (GitHub Pages is https). Opening `index.html` by double-click still runs the app, without install/offline.
 
-## Notifications ke baare me
-Browser reminder tabhi dikha sakta hai jab app khula ho ya background me chal raha ho (installed app me behtar).
-Agar reminder miss ho jaye to bhi app kholne par Revision tab, sidebar badge aur dashboard par due topics dikhte hain.
+## Editing
+- Syllabus: `js/data.js` and `js/master.js`. Format `'English text|हिन्दी पाठ'` (master adds `|CVSR`).
+  Progress is saved against the English text, so Hindi can be edited freely.
+- After changing any file, change `CACHE` in `sw.js` (for example `pariksha-path-v4`) so users get the update.
 
-## Data ke baare me
-- Progress usi browser me save hota hai. "Clear site data" karne par delete ho jata hai, isliye Settings se kabhi kabhi **Export backup** karo.
-- Syllabus edit karne par progress safe rehti hai (topic ka text same rahe to).
-- `sw.js` me `CACHE` ka naam badlo jab files update karo, taaki users ko naya version mile.
-
-Syllabus commonly followed pattern par based hai. Official notification se zaroor verify karo.
+## Data
+- Saved only in the browser you use. "Clear site data" deletes it, so export a backup now and then.
+- Always verify the syllabus against the latest official notification.
