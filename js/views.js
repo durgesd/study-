@@ -50,10 +50,11 @@ function renderNav(){
   const light=D.settings.theme==='light';
   $('#sidefoot').innerHTML=`<div class="seg" role="group" aria-label="Language"><button class="${LANG==='en'?'on':''}" data-act="lang" data-l="en">English</button><button class="${LANG==='hi'?'on':''}" data-act="lang" data-l="hi">हिन्दी</button></div>
    <div class="foot2"><button class="ib" data-act="theme" data-t="${light?'dark':'light'}" aria-label="${t('theme')}" title="${t('theme')}">${ico(light?'moon':'sun',18)}</button>${installBtn()}</div>
+   <button class="syncchip chipbtn" data-act="nav" data-v="set">${syncChip()}</button>
    <div class="fsmall"><b>${all.d}/${all.n}</b> ${t('topics_done_short')}</div>`;
   const bn=[['dash','home',t('b_home')],['exam','master',t('b_syl')],['rev','rev',t('b_rev')],['plan','plan',t('b_plan')],['set','set',t('b_more')]];
   $('#bottomnav').innerHTML=bn.map(([v,ic,l])=>`<button class="${UI.view===v?'on':''}" data-act="nav" data-v="${v}" ${v==='exam'?`data-ex="${UI.ex}"`:''}>${ico(ic,22)}<span>${l}</span>${v==='rev'&&due?`<em class="badge">${due}</em>`:''}</button>`).join('');
-  $('#topbar').innerHTML=`<div class="brand sm"><div class="logo">${ico('chk',18)}</div><b>${t('app')}</b></div><div class="seg sm"><button class="${LANG==='en'?'on':''}" data-act="lang" data-l="en">EN</button><button class="${LANG==='hi'?'on':''}" data-act="lang" data-l="hi">हि</button></div>`;
+  $('#topbar').innerHTML=`<div class="brand sm"><div class="logo">${ico('chk',18)}</div><b>${t('app')}</b></div><div class="chips" style="gap:8px"><button class="syncchip chipbtn" data-act="nav" data-v="set">${syncChip()}</button><div class="seg sm"><button class="${LANG==='en'?'on':''}" data-act="lang" data-l="en">EN</button><button class="${LANG==='hi'?'on':''}" data-act="lang" data-l="hi">हि</button></div></div>`;
 }
 function render(){
   renderNav();
@@ -75,7 +76,7 @@ function lane(ex,feat){
    <span class="lpct">${s.pct}<small>%</small></span></button>`;
 }
 function vDash(){
-  const act=activity(),sk=streak(act),t0=today(),plan=D.plans[t0]||[],doneT=plan.filter(x=>x.done).length,mins=D.log[t0]||0,goal=D.settings.goal||240,all=overall(),rl=revLists();
+  const act=activity(),sk=streak(act),t0=today(),plan=planOf(t0),doneT=plan.filter(x=>x.done).length,mins=D.log[t0]||0,goal=D.settings.goal||240,all=overall(),rl=revLists();
   const need=!D.settings.lastExport||diffDays(t0,D.settings.lastExport)>=7;
   const banner=(all.d+all.p>0&&need)?`<div class="banner"><div><b>${t('bk_title')}</b><br><span class="muted">${D.settings.lastExport?t('bk_ago',diffDays(t0,D.settings.lastExport)):t('bk_never')} ${t('bk_text')}</span></div><button class="btn pri" data-act="export">${t('export')}</button></div>`:'';
   const warn=(!storageOK||lastErr)?`<div class="warn">${esc(t(lastErr||'err_storage'))}</div>`:'';
@@ -227,8 +228,8 @@ function timerHtml(){
   return `<div class="timer"><div class="ringwrap">${ring(0,'var(--primary)',170,12)}<div class="n tnum">${pad(f)}:00</div></div><div class="chips" style="margin-top:14px">${[25,45,60,90].map(m=>`<button class="btn sm ${f===m?'pri':''}" data-act="timerLen" data-m="${m}">${m}${t('u_m')}</button>`).join('')}</div><div class="chips" style="margin-top:14px"><button class="btn pri" data-act="timerStart">${t('timer_start')}</button></div><p class="muted" style="font-size:13px;margin-top:10px">${t('timer_note')}</p></div>`;
 }
 function vPlan(){
-  const d=UI.date,t0=today(),list=D.plans[d]||[],done=list.filter(x=>x.done).length,m=D.log[d]||0,goal=D.settings.goal||240;
-  let carry=0;Object.entries(D.plans).forEach(([k,l])=>{if(k<t0)carry+=l.filter(x=>!x.done).length});
+  const d=UI.date,t0=today(),list=planOf(d),done=list.filter(x=>x.done).length,m=D.log[d]||0,goal=D.settings.goal||240;
+  let carry=0;Object.entries(D.plans).forEach(([k,l])=>{if(k<t0)carry+=l.filter(x=>!x.done&&!x.del).length});
   return `<div class="pagehead"><div><h1>${t('nav_plan')}</h1><p>${d===t0?t('today')+' · ':''}${nice(d,{weekday:'long',day:'numeric',month:'long'})}</p></div>
    <div class="datenav"><button class="ib bd" data-act="day" data-n="-1" aria-label="${t('prev')}">${ico('left',18)}</button><input class="inp" type="date" id="planDate" value="${d}" style="width:auto"><button class="ib bd" data-act="day" data-n="1" aria-label="${t('next')}">${ico('right',18)}</button>${d!==t0?`<button class="btn sm" data-act="day" data-n="0">${t('today')}</button>`:''}</div></div>
    ${carry&&d===t0?`<div class="banner"><div><b>${t('carry_title',carry)}</b><br><span class="muted">${t('carry_sub')}</span></div><button class="btn pri" data-act="carry">${t('carry_btn')}</button></div>`:''}
@@ -251,6 +252,7 @@ function vSet(){
   const json=JSON.stringify(D),kb=(json.length/1024).toFixed(1),sn=snaps(),all=overall(),light=D.settings.theme==='light';
   return `<div class="pagehead"><div><h1>${t('nav_set')}</h1><p>${t('set_sub')}</p></div></div>
   ${(!storageOK||lastErr)?`<div class="warn">${esc(t(lastErr||'err_storage'))}</div>`:''}
+  <div class="card synccard" id="syncCard" style="margin-bottom:16px">${syncCardInner()}</div>
   <div class="grid g2">
    <div class="card"><h2 class="h2">${t('your_data')}</h2>
      <div class="kv"><span class="muted">${t('topics_done')}</span><b>${all.d} / ${all.n}</b></div>

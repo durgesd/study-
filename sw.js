@@ -3,9 +3,9 @@
    - runtime-caches Google Fonts so Hindi/English fonts work offline too
    - lets the page ask for an update (SKIP_WAITING) and handles notification clicks
    Bump CACHE whenever you change any file, so users receive the update. */
-const CACHE = 'pariksha-path-v3';
+const CACHE = 'pariksha-path-v4';
 const FONTS = 'pariksha-path-fonts-v1';
-const ASSETS = ['./','index.html','css/styles.css','js/i18n.js','js/data.js','js/master.js','js/utils.js','js/store.js','js/views.js','js/app.js','manifest.webmanifest','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png','icons/apple-touch-icon.png','icons/favicon-32.png'];
+const ASSETS = ['./','index.html','css/styles.css','js/i18n.js','js/data.js','js/master.js','js/utils.js','js/merge.js','js/store.js','js/views.js','js/firebase-config.js','js/sync.js','js/app.js','manifest.webmanifest','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png','icons/apple-touch-icon.png','icons/favicon-32.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));

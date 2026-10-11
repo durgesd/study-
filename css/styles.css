@@ -257,3 +257,14 @@ h2.sec small{font-family:var(--body);font-weight:500;color:var(--mu);font-size:1
   #toast{bottom:calc(88px + env(safe-area-inset-bottom))}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* ===== Sync ===== */
+.chipbtn{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:99px;background:var(--card2);border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--mu);font-family:var(--body);letter-spacing:0;width:fit-content}
+.sd{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--mu2)}
+.sd.ok{background:var(--done);box-shadow:0 0 0 3px color-mix(in srgb,var(--done) 25%,transparent)}
+.sd.busy{background:var(--prog);animation:pulse 1s infinite}.sd.warn{background:var(--prog)}.sd.bad{background:var(--rev)}
+@keyframes pulse{50%{opacity:.35}}
+.synccard{border-color:color-mix(in srgb,var(--primary2) 35%,var(--line));background:linear-gradient(135deg,color-mix(in srgb,var(--primary2) 9%,var(--card)),var(--card) 55%)}
+.syform{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.steps{margin:10px 0 12px 20px;display:grid;gap:6px;font-size:14px;color:var(--tx)}
+.steps code{font-size:12.5px;background:var(--card2);padding:1px 6px;border-radius:6px}

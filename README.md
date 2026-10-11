@@ -13,9 +13,14 @@ js/i18n.js              UI text in English + Hindi (add/edit translations here)
 js/data.js              CGPSC / Vyapam / SSC / Railway syllabus  ('English|हिन्दी')
 js/master.js            MASTER syllabus with exam tags (C / V / S / R)
 js/utils.js             helpers, icons
+js/merge.js             merge engine (keeps both devices' changes)
 js/store.js             storage, backup, revision + readiness logic
 js/views.js             all screens
+js/firebase-config.js   paste your Firebase config here to switch sync on
+js/sync.js              cross-device sync (Firebase Auth + Firestore)
 js/app.js               actions, reminders, focus timer, PWA install/update
+firestore.rules         security rules for the cloud database
+SYNC-SETUP.md           step-by-step sync setup
 icons/                  app icons (normal + maskable + apple touch)
 ```
 
@@ -27,6 +32,7 @@ icons/                  app icons (normal + maskable + apple touch)
 - Daily planner, focus timer, streak, heatmap
 - Dark / Light theme, mobile bottom navigation
 - PWA: install on phone / desktop, works offline, in-app update prompt
+- **PC + mobile sync** (free Firebase, one-time setup, see SYNC-SETUP.md): changes show on both devices, data is merged not overwritten
 - Data in browser localStorage + automatic daily copies + Export / Import backup
 
 ## GitHub Pages
@@ -40,7 +46,7 @@ PWA install and offline mode need `https` (GitHub Pages is https). Opening `inde
 ## Editing
 - Syllabus: `js/data.js` and `js/master.js`. Format `'English text|हिन्दी पाठ'` (master adds `|CVSR`).
   Progress is saved against the English text, so Hindi can be edited freely.
-- After changing any file, change `CACHE` in `sw.js` (for example `pariksha-path-v4`) so users get the update.
+- After changing any file, change `CACHE` in `sw.js` (for example `pariksha-path-v5`) so users get the update.
 
 ## Data
 - Saved only in the browser you use. "Clear site data" deletes it, so export a backup now and then.

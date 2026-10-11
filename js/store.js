@@ -2,12 +2,18 @@
 const KEY='pariksha-path.v1',SNAP='pariksha-path.snap.';
 const REV_STEPS=[1,3,7,15,30]; // days after completion: 1st … 5th revision
 let D,storageOK=true,lastErr='';
-const blank=()=>({v:3,topics:{},custom:{},plans:{},log:{},exams:{},revs:{},settings:{theme:'dark',lang:null,goal:240,lastExport:null,created:today(),autoRev:true,remind:{on:false,time:'08:00',last:null},focus:25}});
+const blank=()=>({v:4,resetAt:0,topics:{},custom:{},plans:{},log:{},logu:{},exams:{},revs:{},settings:{u:0,theme:'dark',lang:null,goal:240,lastExport:null,created:today(),autoRev:true,remind:{on:false,time:'08:00',last:null},focus:25}});
 function migrate(o){
   const b=blank(),r=Object.assign(b,o||{});
   r.settings=Object.assign(blank().settings,(o&&o.settings)||{});
   r.settings.remind=Object.assign(blank().settings.remind,(o&&o.settings&&o.settings.remind)||{});
-  r.v=3;['topics','custom','plans','log','exams','revs'].forEach(k=>{if(!r[k]||typeof r[k]!=='object')r[k]={}});
+  r.v=4;['topics','custom','plans','log','logu','exams','revs'].forEach(k=>{if(!r[k]||typeof r[k]!=='object')r[k]={}});
+  r.resetAt=r.resetAt||0;
+  /* give older records a timestamp so they can be merged */
+  Object.values(r.topics).forEach(o=>{if(!o.u)o.u=o.d?parseD(o.d).getTime():1});
+  Object.values(r.custom).forEach(a=>a.forEach(o=>{if(!o.u)o.u=1}));
+  Object.values(r.plans).forEach(a=>a.forEach(o=>{if(!o.u)o.u=1}));
+  Object.values(r.exams).forEach(o=>{if(!o.u)o.u=1});
   return r;
 }
 function load(){
@@ -29,6 +35,7 @@ function saveNow(){
     if(prev&&!localStorage.getItem(sk)){localStorage.setItem(sk,prev);pruneSnaps()}
     localStorage.setItem(KEY,json);storageOK=true;
   }catch(e){storageOK=false;toast(t('toast_storage'))}
+  if(typeof syncKick==='function')syncKick();
 }
 function snaps(){const a=[];try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith(SNAP))a.push(k)}}catch(e){}return a.sort().reverse()}
 function pruneSnaps(){snaps().slice(14).forEach(k=>{try{localStorage.removeItem(k)}catch(e){}})}
@@ -39,7 +46,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)saveNow()})
 let INDEX={};
 function topicsOf(ex,sub){
   const base=sub.t.map(x=>({id:`${ex.key}.${sub.k}.${hash(x.t)}`,t:x.t,h:x.h,e:x.e,c:0}));
-  const cu=(D.custom[ex.key+'.'+sub.k]||[]).map(o=>({id:o.id,t:o.t,h:'',e:'',c:1}));
+  const cu=(D.custom[ex.key+'.'+sub.k]||[]).filter(o=>!o.del).map(o=>({id:o.id,t:o.t,h:'',e:'',c:1}));
   return base.concat(cu);
 }
 function buildIndex(){INDEX={};ALL.forEach(ex=>ex.subjects.forEach(s=>topicsOf(ex,s).forEach(x=>INDEX[x.id]={ex,sub:s,t:x.t,h:x.h,e:x.e,id:x.id})))}
@@ -52,7 +59,7 @@ const exByKey=k=>ALL.find(e=>e.key===k);
 function activity(){
   const a={};const add=(d,n)=>{if(d)a[d]=(a[d]||0)+n};
   Object.values(D.topics).forEach(o=>{if(o.s===2)add(o.d,1)});
-  Object.entries(D.plans).forEach(([d,l])=>l.forEach(x=>{if(x.done)add(x.dd||d,1)}));
+  Object.entries(D.plans).forEach(([d,l])=>l.forEach(x=>{if(x.done&&!x.del)add(x.dd||d,1)}));
   Object.entries(D.log).forEach(([d,m])=>{if(m>0)add(d,Math.max(1,Math.floor(m/30)))});
   Object.entries(D.revs||{}).forEach(([d,n])=>add(d,n));
   return a;
@@ -67,6 +74,19 @@ function readiness(){
 }
 function overlapCounts(){const c={1:0,2:0,3:0,4:0};MASTER.subjects.forEach(s=>s.t.forEach(x=>{if(x.e)c[x.e.length]++}));return c}
 
+/* ---------- stamped writers (needed for multi-device merge) ---------- */
+const stamp=()=>Date.now();
+function T(id){const o=D.topics[id]||(D.topics[id]={});o.u=stamp();return o}
+const planOf=d=>(D.plans[d]||[]).filter(x=>!x.del);
+function setLog(date,val){D.log[date]=Math.max(0,val);D.logu[date]=stamp()}
+function setShared(k,v){D.settings[k]=v;D.settings.u=stamp()}
+/* replace everything (import / restore / erase): the newest reset wins across devices */
+function adopt(obj){
+  const keep={theme:D.settings.theme,lang:D.settings.lang,remind:D.settings.remind};
+  D=migrate(obj);Object.assign(D.settings,keep);D.resetAt=stamp();D.settings.u=stamp();
+  buildIndex();saveNow();
+}
+
 /* ---------- spaced revision ---------- */
 function revLists(){
   const t0=today(),due=[],soon=[],mastered=[];
@@ -78,12 +98,12 @@ function revLists(){
 }
 const dueCount=()=>revLists().due.length;
 function markRevised(id){
-  const o=D.topics[id];if(!o)return;
+  const o=T(id);
   o.rc=(o.rc||0)+1;o.lr=today();
   if(o.rc>=REV_STEPS.length){delete o.nx;o.m=1}else o.nx=addDays(today(),REV_STEPS[o.rc]);
   D.revs[today()]=(D.revs[today()]||0)+1;
 }
-function snoozeRev(id,days){const o=D.topics[id];if(o)o.nx=addDays(today(),days||1)}
+function snoozeRev(id,days){const o=T(id);o.nx=addDays(today(),days||1)}
 
 /* ============================== state ============================= */
 const UI={view:'dash',ex:'master',group:{},filter:'all',cov:'all',q:'',open:{},note:{},date:today()};
