@@ -1,0 +1,6 @@
+{
+  "name": "Pariksha Path",
+  "description": "CGPSC, CG Vyapam, SSC and Railway syllabus tracker with spaced revision reminders, Hindi/English support and PWA offline capability.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
